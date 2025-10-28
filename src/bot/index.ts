@@ -1,5 +1,6 @@
 import { Telegraf } from "telegraf";
 import { getProjects } from "../kwork/index.js";
+import he from "he";
 
 import type { Project } from "../types/types.js";
 
@@ -80,8 +81,10 @@ async function sendProjects(projects: Project[], bot: Telegraf) {
 }
 
 async function escapeHtml(text: string) {
-  return text
-    .replace(/<br\s*\/?>/gi, "\n")
-    .replace(/<(?!\/?(b|i|u|s|a|code|pre)\b)[^>]*>/gi, "")
-    .trim();
+  return he.decode(
+    text
+      .replace(/<br\s*\/?>/gi, "\n")
+      .replace(/<(?!\/?(b|i|u|s|a|code|pre)\b)[^>]*>/gi, "")
+      .trim()
+  );
 }
